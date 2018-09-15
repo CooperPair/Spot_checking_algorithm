@@ -26,12 +26,14 @@ from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.ensemble import GradientBoostingClassifier
 from xgboost import XGBClassifier
 import sys
+import crayons
 
 '''
 # load the dataset, returns X and y elements
 def load_dataset():
 	return make_classification(n_samples=1000, n_classes=2, random_state=1)
 '''
+
 data = pd.read_csv(sys.argv[1])
 #dropping unnecessary columns..
 data = data.drop(['Symbol','Series','Date','% Dly Qt to Traded Qty'],axis = 1)
@@ -42,20 +44,18 @@ n = m.shift(1) #shifting the data one step into the future
 
 features = m-n
 
+#converting negative data into 0 and postive data into 1.
 features[features<0] = 0
 features[features>0] = 1
+
 features  = pd.DataFrame(features)
-#relaciong the NAN value   
+#replacing the NAN value with 0.   
 features = features.fillna(0)
 #changin the data into a numpy array
 features = np.array(features)
 
-#print("Printing feature")
-#print(features)
-
 data = data.drop('Close Price',axis=1)
 labels = np.array(data)
-#print(labels)
 
 # create a dict of standard models to evaluate {name:object}
 def define_models(models=dict()):
@@ -85,7 +85,8 @@ def define_models(models=dict()):
 	models['rf'] = RandomForestClassifier(n_estimators=n_trees)
 	models['et'] = ExtraTreesClassifier(n_estimators=n_trees)
 	models['gbm'] = GradientBoostingClassifier(n_estimators=n_trees)
-	print('Defined %d models' % len(models))
+	
+	print(crayons.blue(f'\t[*] Total Standard models defined is {len(models)}', bold = True))
 	return models
  
 # define gradient boosting models
@@ -107,7 +108,8 @@ def define_gbm_models(models=dict(), use_xgb=True):
 					else:
 						name = 'gbm-' + str(cfg)
 						models[name] = GradientBoostingClassifier(learning_rate=l, n_estimators=e, subsample=s, max_depth=d)
-	print('Defined %d models' % len(models))
+	print(crayons.blue(f'\t[*]Total Gradient Boosting models is  {len(models)}\n', bold = True))
+	
 	return models
  
 # create a feature preparation pipeline for a model
@@ -153,9 +155,14 @@ def evaluate_models(X, y, models, folds=10, metric='accuracy'):
 			# store a result
 			results[name] = scores
 			mean_score, std_score = mean(scores), std(scores)
-			print('>%s: %.3f (+/-%.3f)' % (name, mean_score, std_score))
+			print(crayons.blue(f'\t[*] NAME => {name}', bold=True))
+			print(crayons.yellow(f'\t[*] Mean Score => {round(mean_score,3)}', bold = True))
+			print(crayons.red(f'\t[*] Std_Score => (+/-){round(std_score,3)}', bold=True))
+			print('\n')
+
 		else:
-			print('>%s: error' % name)
+			print(crayons.red(f'\t[*] {name} => error', bold = True))
+			#print('>%s: error' % name)
 	return results
  
 # print and plot the top n results
@@ -178,10 +185,16 @@ def summarize_results(results, maximize=True, top_n=10):
 	scores = [results[x[0]] for x in mean_scores[:n]]
 	# print the top n
 	print()
+	
 	for i in range(n):
 		name = names[i]
 		mean_score, std_score = mean(results[name]), std(results[name])
-		print('Rank=%d, Name=%s, Score=%.3f (+/- %.3f)' % (i+1, name, mean_score, std_score))
+		print(crayons.yellow(f'\t[*] RANK => {i+1}', bold=True))
+		print(crayons.blue(f'\t[*] NAME => {name}', bold=True))
+		print(crayons.yellow(f'\t[*] Score => {round(mean_score,3)}', bold=True))
+		print(crayons.red(f'\t[*] std score => (+/-){round(std_score,3)}', bold=True))
+		print("\n\n")
+	
 	# boxplot for the top n
 	pyplot.boxplot(scores, labels=names)
 	_, labels = pyplot.xticks()
