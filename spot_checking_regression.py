@@ -107,7 +107,7 @@ def evaluate_model(X, y, model, folds, metric):
 	scores = cross_val_score(pipeline, X, y, scoring=metric, cv=folds, n_jobs=-1)
 	return scores
  
-# evaluate a model and try to trap errors and and hide warnings
+# evaluate a model and try to trap errors and hide warnings
 def robust_evaluate_model(X, y, model, folds, metric):
 	scores = None
 	try:
@@ -129,8 +129,10 @@ def evaluate_models(X, y, models, folds=10, metric='accuracy'):
 			# store a result
 			results[name] = scores
 			mean_score, std_score = mean(scores), std(scores)
-
-			print('>%s: %.3f (+/-%.3f)' % (name, mean_score, std_score))
+			print(crayons.blue(f'\t[*] NAME => {name}', bold=True))
+			print(crayons.yellow(f'\t[*] Mean Score => {round(mean_score,3)}', bold = True))
+			print(crayons.red(f'\t[*] Std_Score => (+/-){round(std_score,3)}', bold=True))
+			print("\n")
 		else:
 			print('>%s: error' % name)
 	return results
@@ -159,14 +161,18 @@ def summarize_results(results, maximize=True, top_n=10):
 		name = names[i]
 		mean_score, std_score = mean(results[name]), std(results[name])
 		print(crayons.yellow(f'\t[*] RANK => {i+1}', bold=True))
-		print(crayons.Blue(f'\t[*] NAME => {name}', bold=True))
-		print(crayons.red(f'\t[*] Score => {mean_score}', bold=True))
-		print(crayons.yellow(f'\t[*] std score => {std_score}', bold=True))
+		print(crayons.blue(f'\t[*] NAME => {name}', bold=True))
+		print(crayons.yellow(f'\t[*] Score => {round(mean_score,3)}', bold=True))
+		print(crayons.red(f'\t[*] std score => (+/-){round(std_score,3)}', bold=True))
+		print("\n\n")
+	
+	
 	# boxplot for the top n
 	pyplot.boxplot(scores, labels=names)
 	_, labels = pyplot.xticks()
 	pyplot.setp(labels, rotation=90)
 	#pyplot.savefig('spotcheck.png')
+	pyplot.grid()
 	pyplot.show()
 
 # load dataset
