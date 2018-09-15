@@ -1,3 +1,4 @@
+#importing packages and library
 import warnings
 from numpy import mean
 import numpy as np
@@ -58,22 +59,27 @@ data = data.drop('Close Price',axis=1)
 labels = np.array(data)
 
 # create a dict of standard models to evaluate {name:object}
+#this function will return a dictionary of models names mapped to scikit-learn model object.
+#this will also take dictionary as an optional argument, if not provided a new dict is created and populated.
 def define_models(models=dict()):
 	# linear models
 	models['logistic'] = LogisticRegression()
 	alpha = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+	#trying different configuration of ridge:
 	for a in alpha:
 		models['ridge-'+str(a)] = RidgeClassifier(alpha=a)
 	models['sgd'] = SGDClassifier(max_iter=1000, tol=1e-3)
 	models['pa'] = PassiveAggressiveClassifier(max_iter=1000, tol=1e-3)
 	# non-linear models
 	n_neighbors = range(1, 21)
+	#trying differnt configuration of models
 	for k in n_neighbors:
 		models['knn-'+str(k)] = KNeighborsClassifier(n_neighbors=k)
 	models['cart'] = DecisionTreeClassifier()
 	models['extra'] = ExtraTreeClassifier()
 	models['svml'] = SVC(kernel='linear')
 	models['svmp'] = SVC(kernel='poly')
+	#trying differnt configuraton for svmr models:
 	c_values = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 	for c in c_values:
 		models['svmr'+str(c)] = SVC(C=c)
@@ -112,7 +118,8 @@ def define_gbm_models(models=dict(), use_xgb=True):
 	
 	return models
  
-# create a feature preparation pipeline for a model
+# create a feature preparation pipeline for a model that will normalise and standarize the data.
+# this function can be evaluated to add more transform part.
 def make_pipeline(model):
 	steps = list()
 	# standardization
@@ -125,21 +132,23 @@ def make_pipeline(model):
 	pipeline = Pipeline(steps=steps)
 	return pipeline
  
-# evaluate a single model
+# evaluation of the defiend models on the loaded datasets,using k-fold cross validation,this func will take the data,a defined
+#model, a number of folds, a performance metric used to evaluate the list of scores.It will return the list of scores.
 def evaluate_model(X, y, model, folds, metric):
 	# create the pipeline
-	pipeline = make_pipeline(model)
+	pipeline = make_pipeline(model)# for preparing any data transform.
 	# evaluate model
-	scores = cross_val_score(pipeline, X, y, scoring=metric, cv=folds, n_jobs=-1)
+	scores = cross_val_score(pipeline, X, y, scoring=metric, cv=folds, n_jobs=-1)# n_jobs = -1, to allow model evaluation to occur in parallel,
+	#harnessing as many core as we have avilable on our hardware.
 	return scores
  
-# evaluate a model and try to trap errors and and hide warnings
+# evaluate a model and try to trap errors and hide warnings
 def robust_evaluate_model(X, y, model, folds, metric):
 	scores = None
 	try:
 		with warnings.catch_warnings():
 			warnings.filterwarnings("ignore")
-			scores = evaluate_model(X, y, model, folds, metric)
+			scores = evaluate_model(X, y, model, folds, metric)#model is called in a way that traps excewption and ignores warnings.
 	except:
 		scores = None
 	return scores
@@ -154,6 +163,8 @@ def evaluate_models(X, y, models, folds=10, metric='accuracy'):
 		if scores is not None:
 			# store a result
 			results[name] = scores
+			#providing verbose output, summarizing the mean and std of each model after it was evalauted,this is helpful
+			#if the spot checking algorithm on our datasets will take min to hrs.
 			mean_score, std_score = mean(scores), std(scores)
 			print(crayons.blue(f'\t[*] NAME => {name}', bold=True))
 			print(crayons.yellow(f'\t[*] Mean Score => {round(mean_score,3)}', bold = True))
@@ -162,10 +173,11 @@ def evaluate_models(X, y, models, folds=10, metric='accuracy'):
 
 		else:
 			print(crayons.red(f'\t[*] {name} => error', bold = True))
-			#print('>%s: error' % name)
 	return results
  
 # print and plot the top n results
+#take the dictionaryof results,prints the summary of results ,and creates the vos plot image
+#maximising = True, if the evaluation score is maximising  
 def summarize_results(results, maximize=True, top_n=10):
 	# check for no results
 	if len(results) == 0:
