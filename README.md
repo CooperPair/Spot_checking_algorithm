@@ -11,15 +11,15 @@ It involves rapidly testing a large suite of diverse machine learning algorithms
 
 # Advanatge of Spot Checking:
 
-## It is fast ## it by-passes the days or weeks of preparation and analysis and playing with algorithms that may not ever lead to a result.
+It is fast it by-passes the days or weeks of preparation and analysis and playing with algorithms that may not ever lead to a result.
 
-## It is objective ##, allowing you to discover what might work well for a problem rather than going with what you used last time.
+It is objective , allowing you to discover what might work well for a problem rather than going with what you used last time.
 
-## It gets results ##; you will actually fit models, make predictions and know if your problem can be predicted and what baseline skill may look like.
+It gets results ; you will actually fit models, make predictions and know if your problem can be predicted and what baseline skill may look like.
 
 # SPOT-CHECKING FRAMEWORK IN PYTHON:
 
-# 1.LOAD DATASETS
-# 2.DEFINE MODELS
-# 3.EVALUATE MODELS
-# 4.SUMMARIZE RESULT
+  1.LOAD DATASETS = The type of datasets you want to load.
+  2.DEFINE MODELS = The defined models should be diversed including a mixture of linear,non-linear and ensemble.
+  3.EVALUATE MODELS = Evaluate the models on the basis of the given data and returns the score of the given model.
+  4.SUMMARIZE RESULT = This ouput the result in two form i.e Line form and Box plot as define in the code.
