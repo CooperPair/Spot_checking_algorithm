@@ -1,3 +1,4 @@
+#importing necessary library
 import warnings
 from numpy import mean
 from numpy import std
@@ -69,6 +70,7 @@ def get_models(models=dict()):
 	print('Defined %d models' % len(models))
 	return models
 
+
 #evaluate a dict of models {name:object}, returns {name:score}
 def evaluate_models(X, y, models, folds=10, metric='accuracy'):
 	results = dict()
@@ -87,6 +89,7 @@ def evaluate_models(X, y, models, folds=10, metric='accuracy'):
 		else:
 			print('>%s: error' % name)
 	return results
+
 
 # create a feature preparation pipeline for a model
 def make_pipeline(model):
