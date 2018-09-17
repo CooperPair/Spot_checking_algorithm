@@ -20,6 +20,28 @@ It gets results ; you will actually fit models, make predictions and know if you
 # SPOT-CHECKING FRAMEWORK IN PYTHON:
 
   1.LOAD DATASETS = The type of datasets you want to load.
+  
   2.DEFINE MODELS = The defined models should be diversed including a mixture of linear,non-linear and ensemble.
+  
   3.EVALUATE MODELS = Evaluate the models on the basis of the given data and returns the score of the given model.
+  
   4.SUMMARIZE RESULT = This ouput the result in two form i.e Line form and Box plot as define in the code.
+
+# How to run the algorithm:
+
+> for spot_check_classification.py : This file find the best algorithm for classification datasets.
+
+```console
+ foo@bar:~$ python spot_check_classification.py ./dataset/<dataset>.csv
+ ```
+
+> for spot_checking_regression.py : This file find the best algorithm for regression datasets.
+
+```console
+ foo@bar:~$ python spot_checking_regression.py ./dataset/<dataset>.csv
+ ```
+> for ridge_algo.py : This file is used for forecasting for a datasets that support ridge regression.
+
+```console
+ foo@bar:~$ python ridge_algo.py ./dataset/<dataset>.csv
+ ```
