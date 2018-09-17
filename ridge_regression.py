@@ -4,7 +4,7 @@ import sys
 from sklearn.linear_model import Ridge
 from sklearn.model_selection import train_test_split
 #from sklearn.model_selection import KFold
-#import matplotlib.pyplot as plt
+from matplotlib import pyplot
 import crayons
 
 #loading datasets
@@ -71,7 +71,19 @@ correct_pred = sum(len(set(i)) == 1 for i in zip(y_true, y_fake))
 accuracy = (correct_pred/len(y_true))*100
 
 #printing the results
+print(crayons.yellow(f'\t[*] Total number of forward forecasting  => {len(y_true)}\n', bold=True))
 print(crayons.yellow(f'\t[*] Showing Actual and Predicted value in terms of 1s and 0s\n', bold=True))
 print(crayons.yellow(f'\t[*] Actual value of Close Price => {y_true}\n', bold=True))
 print(crayons.red(f'\t[*] Predicted vaue of Close Price => {y_fake}\n', bold=True))
 print(crayons.blue(f'\t[*] ACCURACY : => {accuracy}', bold=True))
+
+
+# Plot
+actual_line = pyplot.plot(y_true, marker='s', label='Actual Price')
+predicted_line = pyplot.plot(y_fake, color='red', marker='o', label='Predicted Price')
+pyplot.legend(loc='upper left')
+pyplot.ylabel('Trend[1=up and 0=down]')
+pyplot.xlabel('Data')
+pyplot.title('Forecast Results')
+pyplot.grid()
+pyplot.show()
