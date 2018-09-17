@@ -11,7 +11,7 @@ import crayons
 import classificaton
 
 '''
-# load the dataset, returns X and y elements
+# load the dataset(random), returns X and y elements
 def load_dataset():
 	return make_classification(n_samples=1000, n_classes=2, random_state=1)
 '''
