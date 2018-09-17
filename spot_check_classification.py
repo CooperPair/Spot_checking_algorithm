@@ -18,7 +18,7 @@ def load_dataset():
 
 data = pd.read_csv(sys.argv[1])
 #dropping unnecessary columns..
-data = data.drop(['Symbol','Series','Date','% Dly Qt to Traded Qty'],axis = 1)
+data = data.drop(['Symbol','Series','Date'],axis = 1)
 #features extracton and converting into an array
 m = data['Close Price']
 #print(m)
@@ -30,6 +30,7 @@ features = m-n
 features[features<0] = 0
 features[features>0] = 1
 
+#changing data into DataFrame
 features  = pd.DataFrame(features)
 #replacing the NAN value with 0.   
 features = features.fillna(0)

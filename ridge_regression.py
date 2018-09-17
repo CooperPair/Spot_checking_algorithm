@@ -5,13 +5,13 @@ from sklearn.linear_model import Ridge
 
 data = pd.read_csv(sys.argv[1])
 #dropping unnecessary columns..
-data = data.drop(['Symbol','Series','Date','% Dly Qt to Traded Qty'],axis = 1)
+data = data.drop(['Symbol','Series','Date'],axis = 1)
 #features extracton and converting into an array
 m = np.array(data['Close Price'])
 data = data.drop('Close Price',axis=1)
 labels = np.array(data)
 
-clf = Ridge(alpha=1.0)
+clf = Ridge(alpha=1.0,normalize=True)
 fit_model = clf.fit(labels, m)
 
 y_pred = fit_model.predict(labels)
