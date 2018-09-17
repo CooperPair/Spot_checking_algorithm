@@ -2,7 +2,6 @@
 import warnings
 from numpy import mean
 from numpy import std
-from matplotlib import pyplot
 from sklearn.datasets import make_classification
 from sklearn.model_selection import cross_val_score
 from sklearn.preprocessing import StandardScaler
@@ -26,7 +25,7 @@ from xgboost import XGBClassifier
 import crayons
 
 
-# create a dict of standard models to evaluate {name:object}
+#create a dict of standard models to evaluate {name:object}
 #this function will return a dictionary of models names mapped to scikit-learn model object.
 #this will also take dictionary as an optional argument, if not provided a new dict is created and populated.
 def define_models(models=dict()):
