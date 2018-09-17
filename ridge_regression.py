@@ -3,9 +3,11 @@ import numpy as np
 import sys
 from sklearn.linear_model import Ridge
 from sklearn.model_selection import train_test_split
-from sklearn.model_selection import KFold
-import matplotlib.pyplot as plt
+#from sklearn.model_selection import KFold
+#import matplotlib.pyplot as plt
+import crayons
 
+#loading datasets
 data = pd.read_csv(sys.argv[1])
 
 #dropping unnecessary columns..
@@ -68,7 +70,8 @@ correct_pred = sum(len(set(i)) == 1 for i in zip(y_true, y_fake))
 #calculating the accuracy of the model on the basis of up and down
 accuracy = (correct_pred/len(y_true))*100
 
-#print(y_true)
-#print(y_fake)
-
-print(accuracy)
+#printing the results
+print(crayons.yellow(f'\t[*] Showing Actual and Predicted value in terms of 1s and 0s\n', bold=True))
+print(crayons.yellow(f'\t[*] Actual value of Close Price => {y_true}\n', bold=True))
+print(crayons.red(f'\t[*] Predicted vaue of Close Price => {y_fake}\n', bold=True))
+print(crayons.blue(f'\t[*] ACCURACY : => {accuracy}', bold=True))
