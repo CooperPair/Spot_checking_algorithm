@@ -18,7 +18,9 @@ data = data.drop(['Close Price'],axis = 1)
 X = pd.DataFrame(data)
 
 #splitting the datasets into train and test set
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2,shuffle = False)
+
+#print(len(y_test))
 
 #calling the model
 clf = Ridge(alpha=0.1, normalize=True)
@@ -28,10 +30,11 @@ fit_model = clf.fit(X_train , y_train)
 #predicting on the test data
 y_pred = fit_model.predict(X_test)
 y_pred = pd.Series(y_pred)
+print(y_pred)
 
 y_test1 = y_test.shift(1) #shifting the data one step into the future
-
-y_true = y_test-y_test1 
+y_true = y_test-y_test1
+#print(y_true) 
 
 #converting negative data into 0 and postive data into 1.
 y_true[y_true<0] = 0 # '0' stands for down
