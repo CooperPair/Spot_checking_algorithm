@@ -53,7 +53,7 @@ def summarize_results(results, maximize=True, top_n=10):
 	# determine how many results to summarize
 	n = min(top_n, len(results))
 	# create a list of (name, mean(scores)) tuples
-	mean_scores = [(k,mean(v)) for k,v in results.items()]
+	mean_scores = [(k,mean(v)) for k,v in results.items()]# k = key and v = value
 	# sort tuples by mean score
 	mean_scores = sorted(mean_scores, key=lambda x: x[1])
 	# reverse for descending order (e.g. for accuracy)

@@ -30,7 +30,7 @@ import crayons
 #this will also take dictionary as an optional argument, if not provided a new dict is created and populated.
 def define_models(models=dict()):
 	# linear models
-	models['logistic'] = LogisticRegression()
+	models['logistic'] = LogisticRegression()#models['logistic'] = key and LogisticRegression = value
 	alpha = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 	#trying different configuration of ridge:
 	for a in alpha:
@@ -39,23 +39,23 @@ def define_models(models=dict()):
 	models['pa'] = PassiveAggressiveClassifier(max_iter=1000, tol=1e-3)
 	# non-linear models
 	n_neighbors = range(1, 21)
-	#trying differnt configuration of models
-	for k in n_neighbors:
-		models['knn-'+str(k)] = KNeighborsClassifier(n_neighbors=k)
-	models['cart'] = DecisionTreeClassifier()
-	models['extra'] = ExtraTreeClassifier()
-	models['svml'] = SVC(kernel='linear')
-	models['svmp'] = SVC(kernel='poly')
-	#trying differnt configuraton for svmr models:
-	c_values = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
-	for c in c_values:
-		models['svmr'+str(c)] = SVC(C=c)
-	models['bayes'] = GaussianNB()
-	# ensemble models
-	n_trees = 100
-	models['ada'] = AdaBoostClassifier(n_estimators=n_trees)
-	models['bag'] = BaggingClassifier(n_estimators=n_trees)
-	models['rf'] = RandomForestClassifier(n_estimators=n_trees)
+	#trying dgbm videoffernt configuration of models
+	for k in gbm video_neighbors:
+		modelgbm video['knn-'+str(k)] = KNeighborsClassifier(n_neighbors=k)
+	models['cgbm videort'] = DecisionTreeClassifier()
+	models['egbm videotra'] = ExtraTreeClassifier()
+	models['sgbm videoml'] = SVC(kernel='linear')
+	models['sgbm videomp'] = SVC(kernel='poly')
+	#trying dgbm videoffernt configuraton for svmr models:
+	c_values gbm video [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+	for c in gbm video_values:
+		modelgbm video['svmr'+str(c)] = SVC(C=c)
+	models['bgbm videoyes'] = GaussianNB()
+	# ensemblgbm video models
+	n_trees =gbm video100
+	models['agbm videoa'] = AdaBoostClassifier(n_estimators=n_trees)
+	models['bgbm videog'] = BaggingClassifier(n_estimators=n_trees)
+	models['rgbm video'] = RandomForestClassifier(n_estimators=n_trees)
 	models['et'] = ExtraTreesClassifier(n_estimators=n_trees)
 	models['gbm'] = GradientBoostingClassifier(n_estimators=n_trees)
 	
@@ -105,8 +105,8 @@ def evaluate_model(X, y, model, folds, metric):
 	# create the pipeline
 	pipeline = make_pipeline(model)# for preparing any data transform.
 	# evaluate model
-	scores = cross_val_score(pipeline, X, y, scoring=metric, cv=folds, n_jobs=-1)# n_jobs = -1, to allow model evaluation to occur in parallel,
-	#harnessing as many core as we have avilable on our hardware.
+	scores = cross_val_score(pipeline, X, y, scoring=metric, cv=folds, n_jobs=-1)# n_jobs = -1, to allow model evaluation
+	#to occur in parallel,harnessing as many core as we have avilable on our hardware.
 	return scores
 
 # evaluate a model and try to trap errors and hide warnings
@@ -115,7 +115,7 @@ def robust_evaluate_model(X, y, model, folds, metric):
 	try:
 		with warnings.catch_warnings():
 			warnings.filterwarnings("ignore")
-			scores = evaluate_model(X, y, model, folds, metric)#model is called in a way that traps excewption and ignores warnings.
+			scores = evaluate_model(X, y, model, folds, metric)#model is called in a way that traps exception and ignores warnings.
 	except:
 		scores = None
 	return scores
@@ -123,13 +123,13 @@ def robust_evaluate_model(X, y, model, folds, metric):
 # evaluate a dict of models {name:object}, returns {name:score}
 def evaluate_models(X, y, models, folds=10, metric='accuracy'):
 	results = dict()
-	for name, model in models.items():
+	for name, model in models.items():#.items indicates key and value in the dictionory.
 		# evaluate the model
-		scores = robust_evaluate_model(X, y, model, folds, metric)
+		scores = robust_evaluate_model(X, y, model, folds, metric)#to check wether there is error is present or not.
 		# show process
 		if scores is not None:
 			# store a result
-			results[name] = scores
+			results[name] = scores#adding the score of the model in the new dictionary 'results'
 			#providing verbose output, summarizing the mean and std of each model after it was evalauted,this is helpful
 			#if the spot checking algorithm on our datasets will take min to hrs.
 			mean_score, std_score = mean(scores), std(scores)
