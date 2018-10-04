@@ -28,6 +28,7 @@ import crayons
 #create a dict of standard models to evaluate {name:object}
 #this function will return a dictionary of models names mapped to scikit-learn model object.
 #this will also take dictionary as an optional argument, if not provided a new dict is created and populated.
+
 def define_models(models=dict()):
 	# linear models
 	models['logistic'] = LogisticRegression()#models['logistic'] = key and LogisticRegression = value
@@ -40,26 +41,24 @@ def define_models(models=dict()):
 	# non-linear models
 	n_neighbors = range(1, 21)
 	#trying dgbm videoffernt configuration of models
-	for k in gbm video_neighbors:
-		modelgbm video['knn-'+str(k)] = KNeighborsClassifier(n_neighbors=k)
-	models['cgbm videort'] = DecisionTreeClassifier()
-	models['egbm videotra'] = ExtraTreeClassifier()
-	models['sgbm videoml'] = SVC(kernel='linear')
-	models['sgbm videomp'] = SVC(kernel='poly')
-	#trying dgbm videoffernt configuraton for svmr models:
-	c_values gbm video [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
-	for c in gbm video_values:
-		modelgbm video['svmr'+str(c)] = SVC(C=c)
-	models['bgbm videoyes'] = GaussianNB()
-	# ensemblgbm video models
-	n_trees =gbm video100
-	models['agbm videoa'] = AdaBoostClassifier(n_estimators=n_trees)
-	models['bgbm videog'] = BaggingClassifier(n_estimators=n_trees)
-	models['rgbm video'] = RandomForestClassifier(n_estimators=n_trees)
+	for k in n_neighbors:
+		models['knn-'+str(k)] = KNeighborsClassifier(n_neighbors=k)
+	models['cart'] = DecisionTreeClassifier()
+	models['extra'] = ExtraTreeClassifier()
+	models['svml'] = SVC(kernel='linear')
+	models['svmp'] = SVC(kernel='poly')
+	c_values = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+	for c in c_values:
+		models['svmr'+str(c)] = SVC(C=c)
+	models['bayes'] = GaussianNB()
+	# ensemble models
+	n_trees = 100
+	models['ada'] = AdaBoostClassifier(n_estimators=n_trees)
+	models['bag'] = BaggingClassifier(n_estimators=n_trees)
+	models['rf'] = RandomForestClassifier(n_estimators=n_trees)
 	models['et'] = ExtraTreesClassifier(n_estimators=n_trees)
 	models['gbm'] = GradientBoostingClassifier(n_estimators=n_trees)
-	
-	print(crayons.blue(f'\t[*] Total Standard models defined is {len(models)}', bold = True))
+	print('Defined %d models' % len(models))
 	return models
 
 # define gradient boosting models

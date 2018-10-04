@@ -1,6 +1,14 @@
+"""
+Task to do !!! use arima model for finding the one day value and that value is used in the file that can be used for finding
+the close price through ridge formula...
+"""
+
+
+#necessary imports
 import pandas as pd
 import numpy as np
 import sys
+from sklearn.preprocessing import Imputer
 from sklearn.linear_model import Ridge
 from sklearn.model_selection import train_test_split
 #from sklearn.model_selection import KFold
@@ -10,8 +18,20 @@ import crayons
 #loading datasets
 data = pd.read_csv(sys.argv[1])
 
+data = pd.DataFrame(data)
+
 #dropping unnecessary columns..
 data = data.drop(['Symbol','Series','Date'],axis = 1)
+
+values = data['Prev Close']
+values = values.replace(0.0, np.NaN)
+values = values.fillna(values.median())
+
+'''
+value = data['Total Traded Quantity', 'No. of Trades', 'Delverable Qty']
+values = values.replace(0, np.NaN)
+values = values.fillna(values.median())
+'''
 
 y = data['Close Price']
 data = data.drop(['Close Price'],axis = 1)
@@ -21,9 +41,8 @@ X = pd.DataFrame(data)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2,shuffle = False)
 
 print(len(y_test))
-
 #calling the model
-clf = Ridge(alpha=0.1, normalize=True)
+clf = Ridge(alpha=0.2, normalize=True)
 #fitting the model with the trainig data
 fit_model = clf.fit(X_train , y_train)
 
@@ -34,7 +53,6 @@ print(y_pred)
 
 y_test1 = y_test.shift(1) #shifting the data one step into the future
 y_true = y_test-y_test1
-print(y_true) 
 
 #converting negative data into 0 and postive data into 1.
 y_true[y_true<0] = 0 # '0' stands for down
@@ -45,7 +63,7 @@ y_true  = pd.DataFrame(y_true)
 
 #replacing the NAN value with 0.   
 y_true = y_true.fillna(0)
-
+print(y_true)
 #same applying for predicted value
 y_pred1 = y_pred.shift(1) #shifting the data one step into the future
 
