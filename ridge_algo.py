@@ -1,8 +1,3 @@
-"""
-Task to do !!! use arima model for finding the one day value and that value is used in the file that can be used for finding
-the close price through ridge formula...
-"""
-
 
 #necessary imports
 import pandas as pd
@@ -17,21 +12,10 @@ import crayons
 
 #loading datasets
 data = pd.read_csv(sys.argv[1])
-
 data = pd.DataFrame(data)
 
-#dropping unnecessary columns..
-data = data.drop(['Symbol','Series','Date'],axis = 1)
-
-values = data['Prev Close']
-values = values.replace(0.0, np.NaN)
-values = values.fillna(values.median())
-
-'''
-value = data['Total Traded Quantity', 'No. of Trades', 'Delverable Qty']
-values = values.replace(0, np.NaN)
-values = values.fillna(values.median())
-'''
+# Finding the right column for the trading
+data = data[['Prev Close','Open Price', 'Close Price']]
 
 y = data['Close Price']
 data = data.drop(['Close Price'],axis = 1)
