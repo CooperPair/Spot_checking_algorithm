@@ -34,7 +34,7 @@ for t in range(len(test)):
         model_fit = model.fit(disp=0)
         
         if t == (len(test)-1):
-            output = model_fit.forecast(steps=3)
+            output = model_fit.forecast(steps=1)
             i = 1
             for prediction in output[0]:
                 print(crayons.magenta(f'\t[*] Predicted Value {i} : {round(prediction, 2)}', bold=True))
@@ -74,9 +74,3 @@ for t in range(len(test)):
         obs = test[t]
         history.append(obs)
         i += 1
-
-'''
-# plot
-pyplot.plot(test)
-pyplot.plot(predictions, color='red')
-pyplot.show()'''
