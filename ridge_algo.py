@@ -14,7 +14,7 @@ data = pd.read_csv(sys.argv[1])
 data = pd.DataFrame(data)
 
 # Finding the right column for the trading
-df = data[['Prev Close','Open Price']]
+df = data[['Prev Close','Open Price', 'Last Price']]
 
 y = data['Close Price']
 print(len(data.columns))
