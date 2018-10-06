@@ -12,11 +12,10 @@ import sys
 import crayons
 
 REPORT = dict()
-# REPORT['iterations'] = list()
-
 
 # reading the datasets
 data = pd.read_csv(sys.argv[1])
+
 # extractung the datasets
 series = data['Last Price']
 
@@ -27,11 +26,10 @@ size = int(len(X))-1
 
 train, test = X[0:size], X[size:len(X)]
 history = [x for x in train]
+
 predictions = list()
 
-
 for t in range(len(test)):
-        #print(crayons.blue(f'[*] Training Model - Iteration {i}'))
         model = ARIMA(history, order=(0,1,1))
         model_fit = model.fit(disp=0)
         
@@ -77,30 +75,8 @@ for t in range(len(test)):
         history.append(obs)
         i += 1
 
-
-
-
-
-
-
-
-
-
 '''
-for t in range(len(test)):
-	model = ARIMA(history, order=(0,1,1))
-	model_fit = model.fit(disp=0)
-	output = model_fit.forecast()[0]
-	yhat = output[0]
-	predictions.append(yhat)
-	obs = test[t]
-	history.append(obs)
-	print('predicted=%f, expected=%f' % (yhat, obs))'''
-#error = sqrt(mean_squared_error(test, predictions))
-#print('Test MSE: %.3f' % error)
-
-
 # plot
 pyplot.plot(test)
 pyplot.plot(predictions, color='red')
-'''pyplot.show()'''
+pyplot.show()'''
