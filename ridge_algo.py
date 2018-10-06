@@ -1,4 +1,3 @@
-
 #necessary imports
 import pandas as pd
 import numpy as np
@@ -15,18 +14,21 @@ data = pd.read_csv(sys.argv[1])
 data = pd.DataFrame(data)
 
 # Finding the right column for the trading
-data = data[['Prev Close','Open Price', 'Close Price']]
+df = data[['Prev Close','Open Price']]
 
 y = data['Close Price']
-data = data.drop(['Close Price'],axis = 1)
-X = pd.DataFrame(data)
+print(len(data.columns))
+#data = data.drop(['Close Price'],axis = 1)
 
+X = pd.DataFrame(df)
+#print(X)
 #splitting the datasets into train and test set
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2,shuffle = False)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.10, shuffle=False)
 
 print(len(y_test))
 #calling the model
-clf = Ridge(alpha=0.2, normalize=True)
+clf = Ridge(alpha=0.0, normalize=True, random_state=1)
+#ridge_grid = GridSearchCV(clf, ridge_params, cv=5, verbose=10, scoring='neg_mean_absolute_error') 
 #fitting the model with the trainig data
 fit_model = clf.fit(X_train , y_train)
 

@@ -12,7 +12,10 @@ import sys
 
 #reading the datasets
 data = pd.read_csv(sys.argv[1])
-series = data['High Price', '']
+#extractung the datasets
+series = data['Last Price']
+
+#cinverting it into an array
 X = series.values
 
 size = int(len(X))-1
@@ -31,7 +34,9 @@ for t in range(len(test)):
 	print('predicted=%f, expected=%f' % (yhat, obs))
 error = sqrt(mean_squared_error(test, predictions))
 print('Test MSE: %.3f' % error)
+
+
 # plot
 pyplot.plot(test)
 pyplot.plot(predictions, color='red')
-pyplot.show()
+'''pyplot.show()'''
