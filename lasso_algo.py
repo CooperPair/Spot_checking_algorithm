@@ -1,11 +1,10 @@
+#Importing the modules
 import pandas as pd
 import numpy as np
 import sys
 from sklearn.preprocessing import Imputer
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import ElasticNet
-from sklearn.linear_model import HuberRegressor
-#from sklearn.model_selection import KFold
+from sklearn.linear_model import Lasso
 from matplotlib import pyplot
 import crayons
 
@@ -27,8 +26,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.10, shuffl
 
 print(len(y_test))
 #calling the model
-#clf = ElasticNet(alpha=0.1, normalize=True, random_state=1)
-clf = HuberRegressor()
+clf = Lasso(alpha=0.1, normalize=True, random_state=1)
+
 
 fit_model = clf.fit(X_train , y_train)
 
@@ -89,7 +88,7 @@ print(crayons.blue(f'\t[*] ACCURACY : => {accuracy}', bold=True))
 actual_line = pyplot.plot(y_true, marker='s', label='Actual Price')
 predicted_line = pyplot.plot(y_fake, color='red', marker='o', label='Predicted Price')
 pyplot.legend(loc='upper left')
-pyplot.ylabel('Trend1=up and 0=down]')
+pyplot.ylabel('Trend[1=up and 0=down]')
 pyplot.xlabel('Data')
 pyplot.title('Forecast Results')
 pyplot.grid()

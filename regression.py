@@ -35,14 +35,16 @@ def get_models(models=dict()):
 	models['lr'] = LinearRegression()
 	alpha = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 	for a in alpha:
-		models['lasso-'+str(a)] = Lasso(alpha=a)
+		models['lasso-'+str(a)] = Lasso(alpha=a, random_state = 0)
 	for a in alpha:
-		models['ridge-'+str(a)] = Ridge(alpha=a)
+		models['ridge-'+str(a)] = Ridge(alpha=a, random_state = 0)
 	for a1 in alpha:
 		for a2 in alpha:
 			name = 'en-' + str(a1) + '-' + str(a2)
 			models[name] = ElasticNet(a1, a2)
-	models['huber'] = HuberRegressor()
+	alpha = [0.001, 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08, 0.09, 1.0]
+	for a in alpha:
+		models['huber-'+str(a)] = HuberRegressor(alpha = a)
 	models['lars'] = Lars()
 	models['llars'] = LassoLars()
 	models['pa'] = PassiveAggressiveRegressor(max_iter=1000, tol=1e-3)
