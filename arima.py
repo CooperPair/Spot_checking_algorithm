@@ -89,25 +89,17 @@ train1 = X[0:sze]
 history = [x for x in train1]
 # fit and forecasting model model
 model1 = ExponentialSmoothing(history, seasonal_periods = 7, seasonal='add',trend = 'add').fit()
-y1 = model1.forecast(steps=1) # to predict one steps into the future
+y1 = model1.forecast(steps=1) # to predict one steps into the futur
 
 model2 = ARIMA(history, order=(0,1,1)).fit(disp=-1)
 y2 = model2.forecast(steps=1)
-print("This is the prediciton by HOlt's winter method\n")
-print(y1)
+print("This is the prediciton by HOlt's winter method")
+print(y1[0])
 print("This is the prediction by ARIMA models")
-print(y2[0])
-
-
-# creating the sub models
-estimators = []
-
-estimators.append(('HWM', model1))
-estimators.append(('ARIMA', model2))
-
-
-print(estimators)
-# create the ensemble model
-ensemble = VotingClassifier(estimators)
-#kfold = model_selection.KFold(n_splits = 10, random_state = None)
-results = model_selection.cross_val_score(ensemble, X, y, cv = kfold)
+print(float(y2[0][0]))
+#y2.astype(float)
+y1.astype(float)
+y2 = float(y2[0][0])
+prediction = pd.Series((y1*0.45 + y2*.55)) 
+prediction = round(prediction, 2)
+print("The prediction of the model is:"+str(prediction[0]))
