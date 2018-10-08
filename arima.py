@@ -7,12 +7,13 @@ from statsmodels.tsa.arima_model import ARIMA
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 from pandas import DataFrame
 from sklearn.metrics import mean_squared_error
+from sklearn import model_selection
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
 import crayons
 from random import random
-
+from sklearn.ensemble import VotingClassifier
 
 
 
@@ -26,7 +27,7 @@ series = data['Last Price']
 
 # cinverting it into an array
 X = series.values
-
+'''
 size = int(len(X))-1
 
 train, test = X[0:size], X[size:len(X)]
@@ -81,14 +82,32 @@ for t in range(len(test)):
         i += 1
 
 
-
+'''
 # contrived dataset
 sze = len(X)
 train1 = X[0:sze]
 history = [x for x in train1]
 # fit and forecasting model model
-model = ExponentialSmoothing(history, seasonal_periods = 7, seasonal='add',trend = 'add').fit()
-y = model.forecast(steps=1) # to predict one steps into the future
+model1 = ExponentialSmoothing(history, seasonal_periods = 7, seasonal='add',trend = 'add').fit()
+y1 = model1.forecast(steps=1) # to predict one steps into the future
 
-print(y)
+model2 = ARIMA(history, order=(0,1,1)).fit(disp=-1)
+y2 = model2.forecast(steps=1)
+print("This is the prediciton by HOlt's winter method\n")
+print(y1)
+print("This is the prediction by ARIMA models")
+print(y2[0])
 
+
+# creating the sub models
+estimators = []
+
+estimators.append(('HWM', model1))
+estimators.append(('ARIMA', model2))
+
+
+print(estimators)
+# create the ensemble model
+ensemble = VotingClassifier(estimators)
+#kfold = model_selection.KFold(n_splits = 10, random_state = None)
+results = model_selection.cross_val_score(ensemble, X, y, cv = kfold)
