@@ -14,7 +14,7 @@ data = pd.read_csv(sys.argv[1])
 data = pd.DataFrame(data)
 
 # Finding the right column for the trading
-df = data[['Prev Close','Open Price', 'Last Price']]
+df = data[['Prev Close','Last Price','Open Price']]
 y = data['Close Price']
 print(len(data.columns))
 #data = data.drop(['Close Price'],axis = 1)
@@ -22,7 +22,7 @@ print(len(data.columns))
 X = pd.DataFrame(df)
 #print(X)
 #splitting the datasets into train and test set
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.10, shuffle=False)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False)
 
 print(len(y_test))
 #calling the model

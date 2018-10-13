@@ -42,6 +42,8 @@ print(crayons.yellow(f'\t[*] The prediction from SARIMAX model => {y3[0]}\n', bo
 y1.astype(float)
 y2 = float(y2[0][0])
 y3.astype(float)
+
+#weighting average
 prediction = pd.Series((y1*0.35 + y2*.40 + y3*0.25)) 
 prediction = round(prediction, 2)
 print(crayons.blue(f'\t[*] Total prediction from the ensemble model is  => {prediction[0]}\n', bold=True))

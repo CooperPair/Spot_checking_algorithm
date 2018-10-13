@@ -13,7 +13,7 @@ data = pd.read_csv(sys.argv[1])
 
 #droping unnecessary columns..
 #data = data.drop(['Symbol','Series','Date','% Dly Qt to Traded Qty'],axis = 1)
-df = np.array(data[['Prev Close','Open Price', 'Last Price']])
+df = np.array(data[['Prev Close','Open Price']])
 y = np.array(data['Close Price'])
 
 #features extracton and converting into an array
