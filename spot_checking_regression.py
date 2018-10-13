@@ -9,21 +9,19 @@ import sys
 import crayons
 import regression
 
-'''
-# load the dataset, returns X and y elements
-def load_dataset():
-	return make_regression(n_samples=1000, n_features=50, noise=0.1, random_state=1)
-'''
 data = pd.read_csv(sys.argv[1])
-#dropping unnecessary columns..
-data = data.drop(['Symbol','Series','Date','% Dly Qt to Traded Qty'],axis = 1)
+
+#droping unnecessary columns..
+#data = data.drop(['Symbol','Series','Date','% Dly Qt to Traded Qty'],axis = 1)
+df = np.array(data[['Prev Close','Open Price', 'Last Price']])
+y = np.array(data['Close Price'])
+
 #features extracton and converting into an array
-m = np.array(data['Close Price'])
-data = data.drop('Close Price',axis=1)
-labels = np.array(data)
+#m = np.array(y)
 
+#data = data.drop('Close Price',axis=1)
+#labels = np.array(df)
 
-  
 # print and plot the top n results
 def summarize_results(results, maximize=True, top_n=10):
 	# check for no results
@@ -65,7 +63,7 @@ def summarize_results(results, maximize=True, top_n=10):
 # load dataset
 print(crayons.red("\n[*] LOADING DATASET... ", bold=True))
 print(crayons.red("\n[*] DATASET LOADED...NOW EVALUATING THE BEST MODELS....", bold=True))
-X, y = labels, m
+X, y = df, y
 
 # get model list
 print(crayons.red("\n[*] GETTING THE MODEL LISTS:" , bold=True))
