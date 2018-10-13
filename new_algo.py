@@ -1,3 +1,4 @@
+# importing the separating
 import pandas as pd
 import numpy as np
 import sys
@@ -5,7 +6,6 @@ from sklearn.preprocessing import Imputer
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import ElasticNet
 from sklearn.linear_model import HuberRegressor
-#from sklearn.model_selection import KFold
 from matplotlib import pyplot
 import crayons
 
@@ -14,8 +14,7 @@ data = pd.read_csv(sys.argv[1])
 data = pd.DataFrame(data)
 
 # Finding the right column for the trading
-df = data[['Prev Close','Open Price']]
-
+df = data[['Prev Close','Open Price', 'Last Price']]
 y = data['Close Price']
 print(len(data.columns))
 #data = data.drop(['Close Price'],axis = 1)
@@ -27,8 +26,14 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.10, shuffl
 
 print(len(y_test))
 #calling the model
-#clf = ElasticNet(alpha=0.1, normalize=True, random_state=1)
-clf = HuberRegressor()
+
+clf = ElasticNet(alpha=0.1, normalize=True, random_state=1)
+#model = sys.argv[2]
+'''
+if model == ElasticNet:
+    clf = ElasticNet(alpha=0.1, normalize=True, random_state=1)
+if model == HuberRegressor:
+    clf = HuberRegressor()'''
 
 fit_model = clf.fit(X_train , y_train)
 
@@ -83,7 +88,6 @@ print(crayons.yellow(f'\t[*] Showing Actual and Predicted value in terms of 1s a
 print(crayons.yellow(f'\t[*] Actual value of Close Price => {y_true}\n', bold=True))
 print(crayons.red(f'\t[*] Predicted vaue of Close Price => {y_fake}\n', bold=True))
 print(crayons.blue(f'\t[*] ACCURACY : => {accuracy}', bold=True))
-
 
 # Plot
 actual_line = pyplot.plot(y_true, marker='s', label='Actual Price')
