@@ -27,21 +27,13 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.10, shuffl
 print(len(y_test))
 #calling the model
 
-clf = ElasticNet(alpha=0.1, normalize=True, random_state=1)
-#model = sys.argv[2]
-'''
-if model == ElasticNet:
-    clf = ElasticNet(alpha=0.1, normalize=True, random_state=1)
-if model == HuberRegressor:
-    clf = HuberRegressor()'''
-
+clf = HuberRegressor(alpha = 0.06)
 fit_model = clf.fit(X_train , y_train)
 
 #predicting on test data
 y_pred = fit_model.predict(X_test)
 y_pred = pd.Series(y_pred)
 print(y_pred)
-
 
 y_test1 = y_test.shift(1) #shifting the data one step into the future
 y_true = y_test-y_test1
