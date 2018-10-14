@@ -15,35 +15,66 @@ import crayons
 data = pd.read_csv(sys.argv[1])
 
 # extractung the datasets
-series = data['Last Price']
-
+last_price = data['Last Price']
+close_price = data['Close Price']
 # converting it into an array
-X = series.values
-
+X = last_price.values
+Z = close_price.values
 # contrived dataset
 sze = len(X)
-
+#sze_z = len(Z)
 train1 = X[0:sze]
-history = [x for x in train1]
+history1 = [x for x in train1]
+
+train2 = Z[0:sze]
+history2 = [z for z in train2]
+
 
 # fit and forecasting model model
-model1 = ExponentialSmoothing(history, seasonal_periods = 7, seasonal='add',trend = 'add').fit()
-y1 = model1.forecast(steps=7) # to predict one steps into the futur
+model1_x = ExponentialSmoothing(history1, seasonal_periods = 7, seasonal='add',trend = 'add').fit()
+y1_x = model1_x.forecast(steps=7) # to predict one steps into the future
 
-model2 = ARIMA(history, order=(0,1,1)).fit(disp=0)
-y2 = model2.forecast(steps=7)
+model1_z = ExponentialSmoothing(history2, seasonal_periods = 7, seasonal='add',trend = 'add').fit()
+y1_z = model1_z.forecast(steps=7) # to predict one steps into the future
 
-model3 = sm.tsa.statespace.SARIMAX(history,order=(1, 1, 1),seasonal_order=(1, 1, 0, 12),enforce_stationarity=False,enforce_invertibility=False).fit()
-y3 = model3.forecast(steps = 1)
+model2_x = ARIMA(history1, order=(0,1,1)).fit(disp=0)
+y2_x = model2_x.forecast(steps=7)
 
-print(crayons.yellow(f'\t[*] The prediction from HWM model => {y1[0]}\n', bold = False))
-print(crayons.yellow(f'\t[*] The prediction from ARIMA model => {float(y2[0][0])}\n', bold=False))
-print(crayons.yellow(f'\t[*] The prediction from SARIMAX model => {y3[0]}\n', bold = False))
-y1.astype(float)
-y2 = float(y2[0][0])
-y3.astype(float)
+model2_z = ARIMA(history2, order=(0,1,1)).fit(disp=0)
+y2_z = model2_z.forecast(steps=7)
+
+model3_x = sm.tsa.statespace.SARIMAX(history1,order=(1, 1, 1),seasonal_order=(1, 1, 0, 12),enforce_stationarity=False,enforce_invertibility=False).fit()
+y3_x = model3_x.forecast(steps = 1)
+
+model3_z = sm.tsa.statespace.SARIMAX(history2,order=(1, 1, 1),seasonal_order=(1, 1, 0, 12),enforce_stationarity=False,enforce_invertibility=False).fit()
+y3_z = model3_z.forecast(steps = 1)
+
+print(crayons.magenta(f'\t[*] The prediction for last price:\n',bold = True))
+
+print(crayons.yellow(f'\t[*] The prediction from HWM model => {y1_x[0]}\n', bold = False))
+print(crayons.yellow(f'\t[*] The prediction from ARIMA model => {float(y2_x[0][0])}\n', bold=False))
+print(crayons.yellow(f'\t[*] The prediction from SARIMAX model => {y3_x[0]}\n', bold = False))
+
+print(crayons.magenta(f'\t[*] The prediction for close price:\n',bold = True))
+print(crayons.yellow(f'\t[*] The prediction from HWM model => {y1_z[0]}\n', bold = False))
+print(crayons.yellow(f'\t[*] The prediction from ARIMA model => {float(y2_z[0][0])}\n', bold=False))
+print(crayons.yellow(f'\t[*] The prediction from SARIMAX model => {y3_z[0]}\n', bold = False))
+
+y1_x.astype(float)
+y2_x = float(y2_x[0][0])
+y3_x.astype(float)
+
+
+y1_z.astype(float)
+y2_z = float(y2_z[0][0])
+y3_z.astype(float)
 
 #weighting average
-prediction = pd.Series((y1*0.35 + y2*.40 + y3*0.25)) 
-prediction = round(prediction, 2)
-print(crayons.blue(f'\t[*] Total prediction from the ensemble model is  => {prediction[0]}\n', bold=True))
+prediction1 = pd.Series((y1_x*0.35 + y2_x*.40 + y3_x*0.25)) 
+prediction1 = round(prediction1, 2)
+print(crayons.blue(f'\t[*] Total prediction from the ensemble model for last price is  => {prediction1[0]}\n', bold=True))
+
+#weighting average
+prediction2 = pd.Series((y1_x*0.35 + y2_x*.40 + y3_x*0.25)) 
+prediction2 = round(prediction2, 2)
+print(crayons.blue(f'\t[*] Total prediction from the ensemble model for close price is  => {prediction2[0]}\n', bold=True))
