@@ -28,10 +28,10 @@ history = [x for x in train1]
 
 # fit and forecasting model model
 model1 = ExponentialSmoothing(history, seasonal_periods = 7, seasonal='add',trend = 'add').fit()
-y1 = model1.forecast(steps=1) # to predict one steps into the futur
+y1 = model1.forecast(steps=7) # to predict one steps into the futur
 
 model2 = ARIMA(history, order=(0,1,1)).fit(disp=0)
-y2 = model2.forecast(steps=1)
+y2 = model2.forecast(steps=7)
 
 model3 = sm.tsa.statespace.SARIMAX(history,order=(1, 1, 1),seasonal_order=(1, 1, 0, 12),enforce_stationarity=False,enforce_invertibility=False).fit()
 y3 = model3.forecast(steps = 1)

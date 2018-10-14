@@ -10,17 +10,8 @@ import crayons
 import regression
 
 data = pd.read_csv(sys.argv[1])
-
-#droping unnecessary columns..
-#data = data.drop(['Symbol','Series','Date','% Dly Qt to Traded Qty'],axis = 1)
-df = np.array(data[['Prev Close','Open Price']])
+df = np.array(data[['Prev Close','Open Price', 'Last Price']])
 y = np.array(data['Close Price'])
-
-#features extracton and converting into an array
-#m = np.array(y)
-
-#data = data.drop('Close Price',axis=1)
-#labels = np.array(df)
 
 # print and plot the top n results
 def summarize_results(results, maximize=True, top_n=10):
