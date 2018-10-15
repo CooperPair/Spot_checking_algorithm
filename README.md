@@ -45,3 +45,35 @@ It gets results ; you will actually fit models, make predictions and know if you
 ```console
  foo@bar:~$ python ridge_algo.py ./dataset/<dataset>.csv
  ```
+# steps to follow for forecasting :
+> Step 1: Run the grid search for finding the best parametrs for the last_price and close_price.If we want we can even add the dataset preprocessor as per requirement(in the repository stack).
+```console
+ foo@bar:~$ python ./grid_search/grid_search_trend.py dataset=./dataset/<dataset>.csv dataset_processor=./plugs/datset_processor_!! p,d,q=a,b,c
+ ```
+
+```console
+ foo@bar:~$ python ./grid_search/grid_search_trend_last_price.py ./dataset/<dataset>.csv dataset_processor=./plugs/datset_processor_!! p,d,q=a,b,c
+ ```
+> step 2: In the file ensemble.py update the arima parametrs that is being found form the grid search for the last_price, and close_price then run the file.
+
+```console
+ foo@bar:~$ python ensemble.py ./dataset/<dataset>.csv
+ ```
+> step 3: Now after running the file the value of last price which model predict put it in the datasets and uodate the dataset.
+> step 4: After updating the dataset run the spotcheck_regression.py or spotcheck_classification.py file to find the best model, according to the given datasets
+
+```console
+ foo@bar:~$ python spotcheck_regression.py ./dataset/<dataset>.csv
+ ```
+> step 5: According to the prediction of the models on the given datasets run the given models to predict the closing price.
+Also run the forecst.py file too to predict the prediction(form stack) from the model ARIMA.
+e.g:
+
+```console
+ foo@bar:~$ python ridg_algo.py ./dataset/<dataset>.csv
+ ```
+ 
+```console
+ foo@bar:~$ python forecast.py datasets=./dataset/<dataset>.csv dataset_processor=./plugs/dataset_processor_name p,d,q=a,b,c
+ ```
+ >step 6:On the basis of the prediction place the order(and enjoy coffee)!!!! 
