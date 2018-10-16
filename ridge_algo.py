@@ -13,7 +13,7 @@ raw_data = pd.read_csv(sys.argv[1])
 raw_data = pd.DataFrame(raw_data)
 
 # gettin specific data columns
-training_columns = raw_data[['Prev Close','Open Price', 'Last Price']]
+training_columns = raw_data[['Prev Close', 'Last Price']]
 
 y = raw_data['Close Price']
 X = pd.DataFrame(training_columns)
@@ -29,7 +29,7 @@ fit_model = clf.fit(X_train , y_train)
 #predicting on the test data
 y_pred = fit_model.predict(X_test)
 y_pred = pd.Series(y_pred)
-
+print(y_pred)
 
 y_test_shift = y_test.shift(1) #shifting data one step into the future
 y_true = y_test-y_test_shift

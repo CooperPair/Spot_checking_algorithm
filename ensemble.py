@@ -1,4 +1,9 @@
-# TASK TO DO>> STILL TO FIND THE BEST PARAMERTS ACCORDING TO THE GIVEN PREDICTION
+'''
+RELIANCE = best parameters for predicting close price is 0,0,1 and 0,1,1 from normal processor
+            and for the last price it is 0,1,1.
+SAIL = best parameters for prediction close price is 0,0,1 or 1,0,0 or 1,0,1 or 1,1,1 from the 
+            difference data and for last price it is 0,0,1.
+'''
 
 # impoting the modules
 import pandas as pd
@@ -17,9 +22,11 @@ data = pd.read_csv(sys.argv[1])
 # extractung the datasets
 last_price = data['Last Price']
 close_price = data['Close Price']
+open_price = data['Open Price']
 # converting it into an array
 X = last_price.values
 Z = close_price.values
+W = open_price.values
 # contrived dataset
 sze = len(X)
 #sze_z = len(Z)
@@ -28,6 +35,9 @@ history1 = [x for x in train1]
 
 train2 = Z[0:sze]
 history2 = [z for z in train2]
+
+train3 = W[0:sze]
+history3 = [w for w in train3]
 
 
 # fit and forecasting model model
@@ -48,6 +58,7 @@ y3_x = model3_x.forecast(steps = 1)
 
 model3_z = sm.tsa.statespace.SARIMAX(history2,order=(1, 1, 1),seasonal_order=(1, 1, 0, 12),enforce_stationarity=False,enforce_invertibility=False).fit()
 y3_z = model3_z.forecast(steps = 1)
+
 
 print(crayons.magenta(f'\t[*] The prediction for last price:\n',bold = True))
 
