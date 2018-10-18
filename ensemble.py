@@ -7,6 +7,7 @@ SAIL = best parameters for prediction close price is 0,0,1 or 1,0,0 or 1,0,1 or 
 
 # impoting the modules
 import pandas as pd
+import csv
 from statsmodels.tsa.arima_model import ARIMA
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 from pandas import DataFrame
@@ -15,6 +16,7 @@ import numpy as np
 import sys
 import statsmodels.api as sm
 import crayons
+import json
 
 # reading the datasets
 data = pd.read_csv(sys.argv[1])
@@ -25,6 +27,7 @@ close_price = data['Close Price']
 open_price = data['Open Price']
 # converting it into an array
 X = last_price.values
+print(len(X))
 Z = close_price.values
 W = open_price.values
 # contrived dataset
@@ -89,3 +92,18 @@ print(crayons.blue(f'\t[*] Total prediction from the ensemble model for last pri
 prediction2 = pd.Series((y1_x*0.35 + y2_x*.40 + y3_x*0.25)) 
 prediction2 = round(prediction2, 2)
 print(crayons.blue(f'\t[*] Total prediction from the ensemble model for close price is  => {prediction2[0]}\n', bold=True))
+
+# thing to do is to add the value of the close price in the specific coulumn for specific dataset
+m = int(len(data['Last Price']))
+# data['Last Price'][m:] = prediction1 
+#data['Last Price'].loc[m+1] = prediction1[0]
+#print(data['Last Price'])
+#print(data)
+#data1 = data.to_csv('dataset/RELIANCE.csv', encoding='utf-8', index=False)
+#f = open('dataset/RELIANCE.csv', 'w')
+#f.write(data)
+#print(data1)
+l = ['RELIANCE','EQ',"18-Oct-2018","       1163.80","       1179.00","       1179.35","       1140.00","       1151.00","       1151.30","       1166.52","   12785646","         14914670103.05","     203752","    5683158","         44.45"]
+temp = json.dumps(l)[1:-1]
+with open('dataset/RELIANCE.csv', 'a') as f:
+    f.write(temp)
