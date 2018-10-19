@@ -103,7 +103,8 @@ m = int(len(data['Last Price']))
 #f = open('dataset/RELIANCE.csv', 'w')
 #f.write(data)
 #print(data1)
-l = ['RELIANCE','EQ',"18-Oct-2018","       1163.80","       1179.00","       1179.35","       1140.00","       1151.00","       1151.30","       1166.52","   12785646","         14914670103.05","     203752","    5683158","         44.45"]
+#"Symbol","Series","Date","Prev Close","Open Price","High Price","Low Price","Last Price","Close Price","Average Price","Total Traded Quantity","Turnover","No. of Trades","Deliverable Qty","% Dly Qt to Traded Qty"
+l = ['RELIANCE','EQ',"18-Oct-2018","       1163.80","       1179.00","       1179.35","       1140.00",str(prediction1[0]),"       1151.30","       1166.52","   12785646","         14914670103.05","     203752","    5683158","         44.45"]
 temp = json.dumps(l)[1:-1]
 with open('dataset/RELIANCE.csv', 'a') as f:
     f.write(temp)
