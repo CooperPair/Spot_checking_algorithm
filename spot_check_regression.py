@@ -42,14 +42,14 @@ def summarize_results(results, maximize=True, top_n=10):
 		print(crayons.red(f'\t[*] std score => (+/-){round(std_score,3)}', bold=True))
 		print("\n\n")
 	
-	
+	'''
 	# boxplot for the top n
 	pyplot.boxplot(scores, labels=names)
 	_, labels = pyplot.xticks()
 	pyplot.setp(labels, rotation=90)
 	#pyplot.savefig('spotcheck.png')
 	pyplot.grid()
-	pyplot.show()
+	pyplot.show()'''
 
 # load dataset
 print(crayons.red("\n[*] LOADING DATASET... ", bold=True))
