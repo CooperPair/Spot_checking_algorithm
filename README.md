@@ -77,3 +77,7 @@ e.g:
  foo@bar:~$ python forecast.py datasets=./dataset/<dataset>.csv dataset_processor=./plugs/dataset_processor_name p,d,q=a,b,c
  ```
  >step 6:On the basis of the prediction place the order(and enjoy coffee)!!!! 
+ 
+ # Best algorithm according to the datasets:
+ > RELIANCE.csv = theil, huber-0.001
+ > SAIL.csv = lr, ridge-0.0
