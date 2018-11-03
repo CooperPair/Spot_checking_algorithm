@@ -4,7 +4,15 @@ RELIANCE = best parameters for predicting close price is 0,0,1 and 0,1,1 from no
 SAIL = best parameters for prediction close price is 0,0,1 or 1,0,0 or 1,0,1 or 1,1,1 from the 
             difference data and for last price it is 0,0,1.
 '''
-
+'''
+What are the things to be automated:
+1. update the required column by finding the values of the close price by finding through ensemble model and detachinf it to the csv file.
+2. Now run the required algorithm according to the given data set which is being found by spot check algorithm and update it too.
+3. Just type in the name of the algorithm fro finding the best prediction of the price (close price)
+4. the close price wchich is being predicted is addded to the tabel in .csv format and the update just suntracct the value and find the
+value whether it is positive or negative.
+5. based on the preediction update the django admin page automaticallly with the value.
+'''
 # impoting the modules
 import pandas as pd
 import csv
@@ -94,17 +102,10 @@ prediction2 = round(prediction2, 2)
 print(crayons.blue(f'\t[*] Total prediction from the ensemble model for close price is  => {prediction2[0]}\n', bold=True))
 
 # thing to do is to add the value of the close price in the specific coulumn for specific dataset
-m = int(len(data['Last Price']))
-# data['Last Price'][m:] = prediction1 
-#data['Last Price'].loc[m+1] = prediction1[0]
-#print(data['Last Price'])
-#print(data)
-#data1 = data.to_csv('dataset/RELIANCE.csv', encoding='utf-8', index=False)
-#f = open('dataset/RELIANCE.csv', 'w')
-#f.write(data)
-#print(data1)
 #"Symbol","Series","Date","Prev Close","Open Price","High Price","Low Price","Last Price","Close Price","Average Price","Total Traded Quantity","Turnover","No. of Trades","Deliverable Qty","% Dly Qt to Traded Qty"
-l = ['RELIANCE','EQ',"18-Oct-2018","       1163.80","       1179.00","       1179.35","       1140.00",str(prediction1[0]),"       1151.30","       1166.52","   12785646","         14914670103.05","     203752","    5683158","         44.45"]
+m = int(len(data['Last Price']))
+l = ['RELIANCE','EQ',"01-Nov-2018","       1163.80","       1179.00","       1179.35","       1140.00",str(prediction1[0]),"       1151.30","       1166.52","   12785646","         14914670103.05","     203752","    5683158","         44.45"]
+
 temp = json.dumps(l)[1:-1]
 with open('dataset/RELIANCE.csv', 'a') as f:
     f.write(temp)
