@@ -1,6 +1,6 @@
 '''
 RELIANCE = best parameters for predicting close price is 0,0,1 and 0,1,1 from normal processor
-            and for the last price it is 0,1,1.
+            and for the last price it is 3,1,1 form diffenrce processor.
 SAIL = best parameters for prediction close price is 0,0,1 or 1,0,0 or 1,0,1 or 1,1,1 from the 
             difference data and for last price it is 0,0,1.
 '''
@@ -104,8 +104,9 @@ print(crayons.blue(f'\t[*] Total prediction from the ensemble model for close pr
 # thing to do is to add the value of the close price in the specific coulumn for specific dataset
 #"Symbol","Series","Date","Prev Close","Open Price","High Price","Low Price","Last Price","Close Price","Average Price","Total Traded Quantity","Turnover","No. of Trades","Deliverable Qty","% Dly Qt to Traded Qty"
 m = int(len(data['Last Price']))
-l = ['RELIANCE','EQ',"01-Nov-2018","       1163.80","       1179.00","       1179.35","       1140.00",str(prediction1[0]),"       1151.30","       1166.52","   12785646","         14914670103.05","     203752","    5683158","         44.45"]
+l = ['RELIANCE','EQ',"04-Nov-2018","       "+str(Z[-1]),"       1179.00","       1179.35","       1140.00","       "+str(prediction1[0]),"       1151.30","       1166.52","   12785646","         14914670103.05","     203752","    5683158","         44.45"]
 
 temp = json.dumps(l)[1:-1]
+print(temp)
 with open('dataset/RELIANCE.csv', 'a') as f:
     f.write(temp)
