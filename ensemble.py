@@ -106,7 +106,6 @@ print(crayons.blue(f'\t[*] Total prediction from the ensemble model for close pr
 m = int(len(data['Last Price']))
 l = ['RELIANCE','EQ',"04-Nov-2018","       "+str(Z[-1]),"       1179.00","       1179.35","       1140.00","       "+str(prediction1[0]),"       1151.30","       1166.52","   12785646","         14914670103.05","     203752","    5683158","         44.45"]
 
-temp = json.dumps(l)[1:-1]
-print(temp)
 with open('dataset/RELIANCE.csv', 'a') as f:
-    f.write(temp)
+    wr = csv.writer(f, quoting=csv.QUOTE_ALL)
+    wr.writerow(l)
