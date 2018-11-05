@@ -16,15 +16,13 @@ data = pd.DataFrame(data)
 # Finding the right column for the trading
 df = data[['Prev Close','Last Price']]
 y = data['Close Price']
-print(len(data.columns))
 #data = data.drop(['Close Price'],axis = 1)
-
+pc = list(data['Prev Close'])
 X = pd.DataFrame(df)
-#print(X)
-#splitting the datasets into train and test set
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False)
 
-print(len(y_test))
+#splitting the datasets into train and test set
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.15, shuffle=False)
+
 #calling the model
 
 clf = HuberRegressor(alpha = 0.001)
@@ -33,8 +31,9 @@ fit_model = clf.fit(X_train , y_train)
 #predicting on test data
 y_pred = fit_model.predict(X_test)
 y_pred = pd.Series(y_pred)
-print(y_pred)
-
+num = len(list(y_pred))
+print(y_pred[num-1])
+#print(y_pred[:-1])
 y_test1 = y_test.shift(1) #shifting the data one step into the future
 y_true = y_test-y_test1
 
@@ -46,7 +45,6 @@ y_true  = pd.DataFrame(y_true)
 
 #replacing the NAN value with 0.   
 y_true = y_true.fillna(round(np.mean(y_true)))
-print(y_true)
 #same applying for predicted value
 y_pred1 = y_pred.shift(1) #shifting the data one step into the future
 
@@ -80,6 +78,15 @@ print(crayons.yellow(f'\t[*] Showing Actual and Predicted value in terms of 1s a
 print(crayons.yellow(f'\t[*] Actual value of Close Price => {y_true}\n', bold=True))
 print(crayons.red(f'\t[*] Predicted vaue of Close Price => {y_fake}\n', bold=True))
 print(crayons.blue(f'\t[*] ACCURACY : => {accuracy}', bold=True))
+# change this it into either up and down base on the if the predictionis is negative or positive
+
+
+predict_trend = (y_pred[num-1] - pc[-1:]).round()
+
+if predict_trend >= 0:
+    print(crayons.yellow(f'\t[*] The forecast trend is UP\n', bold=True))
+else:
+    print(crayons.yellow(f'\t[*] The forecast trend is DOWN\n', bold=True))
 
 # Plot
 actual_line = pyplot.plot(y_true, marker='s', label='Actual Price')
