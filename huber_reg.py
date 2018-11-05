@@ -1,4 +1,4 @@
-# importing the separating
+#import library
 import pandas as pd
 import numpy as np
 import sys
@@ -16,15 +16,12 @@ data = pd.DataFrame(data)
 # Finding the right column for the trading
 df = data[['Prev Close','Last Price']]
 y = data['Close Price']
-#data = data.drop(['Close Price'],axis = 1)
 pc = list(data['Prev Close'])
 X = pd.DataFrame(df)
-
 #splitting the datasets into train and test set
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.15, shuffle=False)
 
-#calling the model
-
+#calling model
 clf = HuberRegressor(alpha = 0.001)
 fit_model = clf.fit(X_train , y_train)
 
@@ -33,8 +30,7 @@ y_pred = fit_model.predict(X_test)
 y_pred = pd.Series(y_pred)
 num = len(list(y_pred))
 print(y_pred[num-1])
-#print(y_pred[:-1])
-y_test1 = y_test.shift(1) #shifting the data one step into the future
+y_test1 = y_test.shift(1) #shifting data one step into future
 y_true = y_test-y_test1
 
 #converting negative data into 0 and postive data into 1.
