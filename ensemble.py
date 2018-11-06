@@ -100,4 +100,4 @@ with open('dataset/RELIANCE.csv', 'a') as f:
     wr = csv.writer(f, quoting=csv.QUOTE_ALL)
     wr.writerow(l)
 
-os.system('python3 huber_reg.py ./dataset/RELIANCE.csv')
+os.system('python3 '+sys.argv[4]+' ./dataset/'+sys.argv[2]+'.'+'csv')
