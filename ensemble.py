@@ -15,7 +15,7 @@ import numpy as np
 import sys
 import statsmodels.api as sm
 import crayons
-import json
+import os
 
 # reading the datasets
 data = pd.read_csv(sys.argv[1])
@@ -99,3 +99,5 @@ l = [sys.argv[2],'EQ',sys.argv[3],"       "+str(Z[-1]),"       1179.00","       
 with open('dataset/RELIANCE.csv', 'a') as f:
     wr = csv.writer(f, quoting=csv.QUOTE_ALL)
     wr.writerow(l)
+
+os.system('python3 huber_reg.py ./dataset/RELIANCE.csv')
