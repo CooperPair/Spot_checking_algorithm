@@ -9,6 +9,8 @@ Spot-checking is an approach to help overcome the “hard problem” of applied 
 
 It involves rapidly testing a large suite of diverse machine learning algorithms on a problem in order to quickly discover what algorithms might work and where to focus attention.
 
+This could not be possible without the tutorial given by Jason Brownlee.
+
 # Advanatge of Spot Checking:
 
 It is fast it by-passes the days or weeks of preparation and analysis and playing with algorithms that may not ever lead to a result.
